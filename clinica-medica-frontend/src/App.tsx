@@ -9,6 +9,8 @@ import Admin from './pages/Admin';
 import Medicos from './pages/Medicos';
 import Pacientes from './pages/Pacientes';
 import PrivateRoute from './components/PrivateRoute';
+import Cadastro from './pages/Cadastro';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} />

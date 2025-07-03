@@ -1,47 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Container, Button, Typography } from '@mui/material';
-import Header from '../components/Header';
-import MedicoList from '../components/MedicoList';
-import MedicoForm from '../components/MedicoForm';
-import { getMedicos } from '../services/medicos';
-import { Medico } from '../types';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Medicos = () => {
-  const [medicos, setMedicos] = useState<Medico[]>([]);
-  const [openForm, setOpenForm] = useState(false);
+export default function Medicos() {
+  const [crm, setCrm] = useState("");
+  const [senha, setSenha] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchMedicos();
-  }, []);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const fetchMedicos = async () => {
-    try {
-      const data = await getMedicos();
-      setMedicos(data);
-    } catch (error) {
-      console.error('Erro ao buscar médicos:', error);
+    if (crm === "123456" && senha === "senha123") {
+      navigate("/dashboard-medico");
+    } else {
+      alert("CRM ou senha inválidos");
     }
   };
 
   return (
-    <>
-      <Header />
-      <Container>
-        <Typography variant="h4" gutterBottom>
-          Médicos
-        </Typography>
-        <Button variant="contained" onClick={() => setOpenForm(true)}>
-          Adicionar Médico
-        </Button>
-        <MedicoList medicos={medicos} />
-        <MedicoForm
-          open={openForm}
-          onClose={() => setOpenForm(false)}
-          onSuccess={fetchMedicos}
-        />
-      </Container>
-    </>
+    <form onSubmit={handleLogin}>
+      <input type="text" placeholder="CRM" value={crm} onChange={(e) => setCrm(e.target.value)} />
+      <input type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
+      <button type="submit">Entrar</button>
+    </form>
   );
-};
-
-export default Medicos;
+}

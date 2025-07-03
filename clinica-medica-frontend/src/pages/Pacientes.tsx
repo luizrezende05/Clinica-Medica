@@ -1,37 +1,23 @@
-import { useState, useEffect } from 'react';
-import { Container, Button, Typography } from '@mui/material';
-import Header from '../components/Header';
-import PacienteList from '../components/PacienteList';
-import { getPacientes } from '../services/pacientes';
-import { Paciente } from '../types';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Pacientes = () => {
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+export default function Pacientes() {
+  const [clinica, setClinica] = useState("");
+  const [especialidade, setEspecialidade] = useState("");
+  const [horario, setHorario] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchPacientes();
-  }, []);
-
-  const fetchPacientes = async () => {
-    try {
-      const data = await getPacientes();
-      setPacientes(data);
-    } catch (error) {
-      console.error('Erro ao buscar pacientes:', error);
-    }
+  const handleAgendar = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Agendamento realizado com sucesso!");
   };
 
   return (
-    <>
-      <Header />
-      <Container>
-        <Typography variant="h4" gutterBottom>
-          Pacientes
-        </Typography>
-        <PacienteList pacientes={pacientes} />
-      </Container>
-    </>
+    <form onSubmit={handleAgendar}>
+      <input type="text" placeholder="Nome da Clínica" value={clinica} onChange={(e) => setClinica(e.target.value)} />
+      <input type="text" placeholder="Especialidade (opcional)" value={especialidade} onChange={(e) => setEspecialidade(e.target.value)} />
+      <input type="time" value={horario} onChange={(e) => setHorario(e.target.value)} />
+      <button type="submit">Agendar</button>
+    </form>
   );
-};
-
-export default Pacientes;
+}

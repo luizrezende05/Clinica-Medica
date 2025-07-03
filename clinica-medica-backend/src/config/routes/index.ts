@@ -1,12 +1,14 @@
-// src/routes/index.ts
 import { Router } from 'express';
 import authRoutes from './authRoutes';
 import medicoRoutes from './medicoRoutes';
+import express from 'express';
+import pacienteRoutes from './pacienteRoutes';
 
 const router = Router();
 
+router.use('/medicos', medicoRoutes);
+router.use('/pacientes', pacienteRoutes);
 router.use('/auth', authRoutes);
 router.use('/medicos', medicoRoutes);
 
-// Exportação deve ser DEFAULT
-export default router;  // ← Esta linha é essencial
+export default router;  
